@@ -16,16 +16,20 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable=false)
     private Double amount;
+    @Column(nullable=false)
     private String name;
     @Embedded
+    @Column(nullable=false)
     private Category category;
     private String merchant;
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private TransactionType transactionType;
-
+    @Column(nullable=false)
     private boolean isRecurring;
+    @Column(nullable=false)
     private String source;
 
     public Transaction(String name, Double amount, Category category){
@@ -51,5 +55,32 @@ public class Transaction {
     }
     public Category geCategory(){
         return this.category;
+    }
+    public TransactionType getTransactionType(){
+        return this.transactionType;
+    }
+    public void setTransactionType(TransactionType transactionType){
+        this.transactionType=transactionType;
+    }
+    public Long getId(){
+        return this.id;
+    }
+    public void setIsRecurring(boolean isRecurring){
+        this.isRecurring=isRecurring;
+    }
+    public boolean getIsRecurring(){
+        return this.isRecurring;
+    }
+    public String getMerchant(){
+        return this.merchant;
+    }
+    public void setMerchant(String merchant){
+        this.merchant=merchant;
+    }
+    public String getSource(){
+        return this.source;
+    }
+    public void setSource(String source){
+        this.source=source;
     }
 }
