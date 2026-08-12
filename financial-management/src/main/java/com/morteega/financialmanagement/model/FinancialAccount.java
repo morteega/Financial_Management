@@ -10,7 +10,7 @@ import jakarta.persistence.GenerationType;
 public class FinancialAccount {
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false) // esta columna se va a llamar "user_id" dentro de la tabla de FinancialAccounts
-    // y ademas va a se el mismo valor que la primary key, en este caso "id" de users
+    // y ademas va a se el mismo valor que la primary key de Users, en este caso "id" de users
     private User user;
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
