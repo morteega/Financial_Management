@@ -1,6 +1,9 @@
 package com.morteega.financialmanagement.model;
 
 import jakarta.persistence.Entity;
+
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EnumType;
@@ -19,7 +22,7 @@ public class Transaction {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @Column(nullable=false)
-    private Double amount;
+    private BigDecimal amount;
     @Column(nullable=false)
     private String name;
     @Embedded
@@ -38,16 +41,21 @@ public class Transaction {
     private FinancialAccount financialAccount;
     
 
-    public Transaction(String name, Double amount, Category category){
+    public Transaction(String name, BigDecimal amount, Category category, String source, String merchant, TransactionType transactionType, boolean isRecurring, FinancialAccount financialAccount){
         this.name=name;
         this.amount=amount;
         this.category=category;
+        this.source=source;
+        this.merchant=merchant;
+        this.transactionType=transactionType;
+        this.isRecurring=isRecurring;
+        this.financialAccount=financialAccount;
     }
 
-    public void setAmount(Double amount){
+    public void setAmount(BigDecimal amount){
         this.amount=amount;
     }
-    public Double getAmount(){
+    public BigDecimal getAmount(){
         return this.amount;
     }
     public void setName(String name){

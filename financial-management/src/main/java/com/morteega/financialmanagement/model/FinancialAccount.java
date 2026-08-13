@@ -2,6 +2,8 @@ package com.morteega.financialmanagement.model;
 
 import com.morteega.financialmanagement.model.users.*;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.GenerationType;
@@ -17,7 +19,7 @@ public class FinancialAccount {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @Column(nullable=false)
-    private Double amount;
+    private BigDecimal amount;
     @Column(nullable=false)
     private String name;
     @OneToMany(mappedBy="financialAccount")
@@ -25,7 +27,7 @@ public class FinancialAccount {
     //Si no es singleton de las listas, de las instancias de los repositorios alomejor, ya lo vere mas adelante
 
 
-    public FinancialAccount(String name, User user, Double amount){
+    public FinancialAccount(String name, User user, BigDecimal amount){
         this.name=name;
         this.user=user;
         this.amount=amount;
@@ -40,11 +42,11 @@ public class FinancialAccount {
         return id;
     } 
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

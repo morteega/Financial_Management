@@ -1,5 +1,7 @@
 package com.morteega.financialmanagement.model;
 
+import java.math.BigDecimal;
+
 import com.morteega.financialmanagement.model.users.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,14 +21,14 @@ public class Budget {
     @Column(nullable=false)
     private String name;
     @Column(nullable=false)
-    private Double goalAmount;
+    private BigDecimal goalAmount;
     @Column(nullable=false)
-    private Double actualAmount;
+    private BigDecimal actualAmount;
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    public Budget(String name, Double actualAmount, Double goalAmount){
+    public Budget(String name, BigDecimal actualAmount, BigDecimal goalAmount){
         this.name=name;
         this.actualAmount=actualAmount;
         this.goalAmount=goalAmount;
@@ -44,19 +46,19 @@ public class Budget {
         this.name = name;
     }
 
-    public Double getGoalAmount() {
+    public BigDecimal getGoalAmount() {
         return goalAmount;
     }
 
-    public void setGoalAmount(Double goalAmount) {
+    public void setGoalAmount(BigDecimal goalAmount) {
         this.goalAmount = goalAmount;
     }
 
-    public Double getActualAmount() {
+    public BigDecimal getActualAmount() {
         return actualAmount;
     }
 
-    public void setActualAmount(Double actualAmount) {
+    public void setActualAmount(BigDecimal actualAmount) {
         this.actualAmount = actualAmount;
     }
     public void setUser(User user){
