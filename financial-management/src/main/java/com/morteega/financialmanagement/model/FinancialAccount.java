@@ -2,6 +2,7 @@ package com.morteega.financialmanagement.model;
 
 import com.morteega.financialmanagement.model.users.*;
 import jakarta.persistence.*;
+import java.util.List;
 
 import jakarta.persistence.GenerationType;
 
@@ -19,6 +20,9 @@ public class FinancialAccount {
     private Double amount;
     @Column(nullable=false)
     private String name;
+    @OneToMany(mappedBy="financialAccount")
+    private List<Transaction> transactionList; //Alomejor deberia hacer Singleton cuando vaya por la logica
+    //Si no es singleton de las listas, de las instancias de los repositorios alomejor, ya lo vere mas adelante
 
 
     public FinancialAccount(String name, User user, Double amount){

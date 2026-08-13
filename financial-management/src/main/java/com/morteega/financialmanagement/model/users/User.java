@@ -13,7 +13,7 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable=false)
+    @Column(unique=true, nullable=false)
     private String email;
     private String password; //en AuthService es donde hasheo la password y la guardo como una columna normal en latabla pero hasehada
     @OneToMany(mappedBy="user")
