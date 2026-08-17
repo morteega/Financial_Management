@@ -3,6 +3,7 @@ package com.morteega.financialmanagement.services;
 import org.springframework.stereotype.Service;
 import com.morteega.financialmanagement.repositories.TransactionRepository;
 import com.morteega.financialmanagement.dtos.TransactionRequestDTO;
+import com.morteega.financialmanagement.dtos.TransactionResponseDTO;
 import com.morteega.financialmanagement.model.users.User;
 import com.morteega.financialmanagement.model.Transaction;
 import com.morteega.financialmanagement.repositories.FinancialAccountRepository;
@@ -17,7 +18,7 @@ public class TransactionService {
         this.transactionRepository=transactionRepository;
     }
 
-    public void addTransaction(User user,TransactionRequestDTO transactionRequestDTO){//De momento hago un void pero claude me dice que haga el metodo de forma que me devuelva un TransactionResponseDTO con el id guardado ya de la transaccion una vez escrito en la BD
+    public TransactionResponseDTO addTransaction(User user,TransactionRequestDTO transactionRequestDTO){//De momento hago un void pero claude me dice que haga el metodo de forma que me devuelva un TransactionResponseDTO con el id guardado ya de la transaccion una vez escrito en la BD
         FinancialAccount financialAccount= financialAccountRepository.findById(transactionRequestDTO.getFinancialAccountId())
                                             .orElseThrow(()-> new RuntimeException("Cuenta no encontrada"));
         if(user.getId().equals(financialAccount.getUser().getId())){

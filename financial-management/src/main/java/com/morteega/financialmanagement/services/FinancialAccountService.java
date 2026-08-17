@@ -1,6 +1,8 @@
 package com.morteega.financialmanagement.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,14 @@ public class FinancialAccountService {
             System.out.println("\nTrying to create an account into the wrong User");
             return null;
         }
+    }
+    public List<FinancialAccountResponseDTO> getAccountsByUser(Long userId){
+        List<FinancialAccount> accounts=this.financialAccountRepository.findByUserId(userId);
+        List<FinancialAccountResponseDTO> finalAccounts= new ArrayList<>();
+        for(int i=0; i<accounts.size();i++){
+            finalAccounts.add(this.toDto(accounts.get(i)));
+        }
+        return finalAccounts;
     }
 
     private FinancialAccountResponseDTO toDto(FinancialAccount financialAcount){
