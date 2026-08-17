@@ -32,6 +32,11 @@ public class FinancialAccount {
         this.user=user;
         this.amount=amount;
     }
+    public FinancialAccount(){
+        this.name=null;
+        this.amount=new BigDecimal(0.0);
+        this.user=null;
+    }
     public User getUser() {
         return user;
     }

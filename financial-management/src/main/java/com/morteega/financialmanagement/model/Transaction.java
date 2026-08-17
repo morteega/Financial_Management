@@ -97,4 +97,10 @@ public class Transaction {
     public void setSource(String source){
         this.source=source;
     }
+    public FinancialAccount getFinancialAccount(){
+        return this.financialAccount;
+    }
+    public void setFinancialAccoutn(FinancialAccount financialAccount){
+        this.financialAccount=financialAccount;
+    }
 }
