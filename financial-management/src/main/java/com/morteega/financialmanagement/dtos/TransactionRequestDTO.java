@@ -1,6 +1,7 @@
 package com.morteega.financialmanagement.dtos;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import com.morteega.financialmanagement.model.Category;
 import com.morteega.financialmanagement.model.TransactionType;
@@ -14,6 +15,7 @@ public class TransactionRequestDTO {
     private String source;
     private TransactionType transactionType;
     private boolean isRecurring;
+    private LocalDate date;
 
     public TransactionRequestDTO(BigDecimal amount, String name, Long financialAccountId, Category category, String merchant, String source, TransactionType transactionType, boolean isIsRecurring){
         this.amount=amount;
@@ -24,6 +26,7 @@ public class TransactionRequestDTO {
         this.source=source;
         this.transactionType=transactionType;
         this.isRecurring=isIsRecurring;
+        this.date=LocalDate.now();
     }
     public BigDecimal getAmount() {
         return amount;
@@ -87,6 +90,12 @@ public class TransactionRequestDTO {
 
     public void setIsRecurring(boolean isRecurring) {
         this.isRecurring = isRecurring;
+    }
+    public void setDate(LocalDate date){
+        this.date=date;
+    }
+    public LocalDate getDate(){
+        return this.date;
     }
 
 }

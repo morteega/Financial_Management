@@ -21,7 +21,7 @@ public class TransactionResponseDTO {
     private LocalDate date;
     
 
-    public TransactionResponseDTO(BigDecimal amount, String name, Long financialAccountId, Category category, String merchant, String source, TransactionType transactionType, boolean isIsRecurring, Long id, LocalDate date){
+    public TransactionResponseDTO(BigDecimal amount, String name, Long financialAccountId, Category category, String merchant, String source, TransactionType transactionType, boolean isIsRecurring, Long id){
         this.amount=amount;
         this.category=category;
         this.financialAccountId=financialAccountId;
@@ -30,8 +30,20 @@ public class TransactionResponseDTO {
         this.source=source;
         this.transactionType=transactionType;
         this.isRecurring=isIsRecurring;
-        this.date=date;
+        this.date=LocalDate.now();
         this.id=id;
+    }
+    public TransactionResponseDTO(){
+        this.amount=new BigDecimal(0.0);
+        this.category=null;
+        this.financialAccountId=null;
+        this.merchant=null;
+        this.name=null;
+        this.source=null;
+        this.transactionType=null;
+        this.isRecurring=false;
+        this.date=LocalDate.now();
+        this.id=null;
     }
     public BigDecimal getAmount() {
         return amount;

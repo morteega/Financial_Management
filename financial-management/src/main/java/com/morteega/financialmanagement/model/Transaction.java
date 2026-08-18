@@ -3,6 +3,7 @@ package com.morteega.financialmanagement.model;
 import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -39,6 +40,8 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name="finacial_account_id" , nullable=false)
     private FinancialAccount financialAccount;
+    @Column(nullable=false)
+    private LocalDate date;
     
 
     public Transaction(String name, BigDecimal amount, Category category, String source, String merchant, TransactionType transactionType, boolean isRecurring, FinancialAccount financialAccount){
@@ -50,6 +53,7 @@ public class Transaction {
         this.transactionType=transactionType;
         this.isRecurring=isRecurring;
         this.financialAccount=financialAccount;
+        this.date=LocalDate.now();
     }
 
     public void setAmount(BigDecimal amount){
@@ -103,4 +107,11 @@ public class Transaction {
     public void setFinancialAccoutn(FinancialAccount financialAccount){
         this.financialAccount=financialAccount;
     }
+    public void setDate(LocalDate date){
+        this.date=date;
+    }
+    public LocalDate getDate(){
+        return this.date;
+    }
+
 }
