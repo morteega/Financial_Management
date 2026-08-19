@@ -12,10 +12,10 @@ import com.morteega.financialmanagement.services.AuthService;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class AuthController {
     private final AuthService authService;
 
-    public UserController(AuthService authService){
+    public AuthController(AuthService authService){
         this.authService=authService;
     }
 

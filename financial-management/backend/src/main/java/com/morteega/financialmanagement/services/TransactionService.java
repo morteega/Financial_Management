@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import com.morteega.financialmanagement.repositories.TransactionRepository;
+import com.morteega.financialmanagement.repositories.UserRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 
 import com.morteega.financialmanagement.dtos.TransactionRequestDTO;
 import com.morteega.financialmanagement.dtos.TransactionResponseDTO;
@@ -19,8 +19,11 @@ import com.morteega.financialmanagement.model.FinancialAccount;
 public class TransactionService {
     private TransactionRepository transactionRepository;
     private FinancialAccountRepository financialAccountRepository;
+    private UserRepository userRepository;
     
-    public TransactionService(TransactionRepository transactionRepository){
+    public TransactionService(TransactionRepository transactionRepository, FinancialAccountRepository financialAccountRepository, UserRepository userRepository){
+        this.financialAccountRepository=financialAccountRepository;
+        this.userRepository=userRepository;
         this.transactionRepository=transactionRepository;
     }
 
@@ -66,6 +69,35 @@ public class TransactionService {
             return transactionResponseDTOs;
         }
     }
+    public TransactionResponseDTO getTransactionById(Long id, Long userId){
+        if(!this.userRepository.existsById(userId)){
+            throw new RuntimeException("Given User not found");
+        }
+        Transaction transaction= this.transactionRepository.findById(id).orElseThrow(() -> new RuntimeException("Transaction not found"));
+        if(!transaction.getFinancialAccount().getUser().getId().equals(userId)){
+            throw new RuntimeException("This transaction doesn't belong to the given User");
+        }
+        TransactionResponseDTO response= this.toDto(transaction); 
+        return response;
+    }
+    public TransactionResponseDTO deleteTransactionById(Long id, Long userId){
+        if(!this.userRepository.existsById(userId)){
+            throw new RuntimeException("Given User not found");
+        }
+        Transaction transaction=this.transactionRepository.findById(id).orElseThrow(()-> new RuntimeException("Transaction not Found"));
+        if(!transaction.getFinancialAccount().getUser().getId().equals(userId)){
+            throw new RuntimeException("Transaction id does't match with given User");
+        }
+        this.transactionRepository.deleteById(id);
+        return this.toDto(transaction);
+    }
+
+
+
+
+
+
+    
     private TransactionResponseDTO toDto(Transaction transaction){
         TransactionResponseDTO transactionResponseDTO= new TransactionResponseDTO();
         transactionResponseDTO.setAmount(transaction.getAmount());
