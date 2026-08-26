@@ -39,12 +39,12 @@ public class TransactionController {
         return ResponseEntity.ok(this.transactionService.getAllTransactions(userid, financialAccountId));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TransactionResponseDTO> getTransactionById(@PathVariable Long id, @RequestParam Long userId){
-        return ResponseEntity.ok(this.transactionService.getTransactionById(id, userId));
+    @GetMapping("/{transactionId}")
+    public ResponseEntity<TransactionResponseDTO> getTransactionById(@PathVariable Long transactionId, @RequestParam Long userId){
+        return ResponseEntity.ok(this.transactionService.getTransactionById(transactionId, userId));
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<TransactionResponseDTO> deleteTransactionById(@PathVariable Long id, @RequestParam Long userId){
-        return ResponseEntity.ok().body(this.transactionService.deleteTransactionById(id, userId));
+    @DeleteMapping("/{transactionId}")
+    public ResponseEntity<TransactionResponseDTO> deleteTransactionById(@PathVariable Long transactionId, @RequestParam Long userId){
+        return ResponseEntity.ok().body(this.transactionService.deleteTransactionById(transactionId, userId));
     }
 }

@@ -49,6 +49,17 @@ public class FinancialAccountService {
         }
         return finalAccounts;
     }
+    public FinancialAccountResponseDTO getFinancialAccountById(Long userId, Long financialAccountId){
+        if(!this.userRepository.existsById(userId)){
+            throw new RuntimeException("User doesnt exist");
+        }
+        FinancialAccount financialAccount = this.financialAccountRepository.findById(financialAccountId)
+                .orElseThrow(() -> new RuntimeException("Account doesnt exist"));
+        if(!userId.equals(financialAccount.getUser().getId())){
+            throw new RuntimeException("Account doesnt belong to this user");
+        }
+        return toDto(financialAccount);
+    }
 
     private FinancialAccountResponseDTO toDto(FinancialAccount financialAcount){
         FinancialAccountResponseDTO response= new FinancialAccountResponseDTO();

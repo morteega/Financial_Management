@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.morteega.financialmanagement.dtos.UserResponseDTO;
@@ -20,12 +21,12 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> create(String email, String password){
+    public ResponseEntity<UserResponseDTO> create(@RequestParam String email, @RequestParam String password){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.authService.registerUser(email, password));
     }
 
     @GetMapping
-    public ResponseEntity<UserResponseDTO> login(String email, String password){
+    public ResponseEntity<UserResponseDTO> login(@RequestParam String email, @RequestParam String password){
         return ResponseEntity.ok(this.authService.login(email, password));
     }
 

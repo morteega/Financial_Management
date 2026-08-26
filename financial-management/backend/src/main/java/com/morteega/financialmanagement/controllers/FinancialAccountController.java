@@ -1,5 +1,6 @@
 package com.morteega.financialmanagement.controllers;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,11 @@ public class FinancialAccountController {
     public ResponseEntity <List<FinancialAccountResponseDTO>> getAll(@RequestParam Long userId){
         List<FinancialAccountResponseDTO> financialAccounts=this.financialAccountService.getAccountsByUser(userId);
         return ResponseEntity.ok(financialAccounts);
+    }
+    @GetMapping("/{accountId}")
+    public ResponseEntity <FinancialAccountResponseDTO> getAccountById(@RequestParam Long userId, @PathVariable Long accountId){
+        FinancialAccountResponseDTO account = this.financialAccountService.getFinancialAccountById(userId, accountId);
+        return ResponseEntity.ok(account);
     }
 }
 
