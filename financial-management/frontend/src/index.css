@@ -15,6 +15,15 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  --fin-bg: #f2f5f4;
+  --fin-card: #ffffff;
+  --fin-border: #e4e9e7;
+  --fin-tab-bg: #eef2f1;
+  --fin-input-bg: #f8faf9;
+  --fin-placeholder: #a9b3b0;
+  --fin-heading: #0b1220;
+  --fin-muted: #667471;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -43,6 +52,15 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --fin-bg: #0a0e14;
+    --fin-card: #121826;
+    --fin-border: #232c3d;
+    --fin-tab-bg: #0d1420;
+    --fin-input-bg: #0d1420;
+    --fin-placeholder: #566072;
+    --fin-heading: #f3f6f5;
+    --fin-muted: #8b96a3;
   }
 
   #social .button-icon {
@@ -55,11 +73,7 @@ body {
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
+  width: 100%;
   min-height: 100svh;
   display: flex;
   flex-direction: column;

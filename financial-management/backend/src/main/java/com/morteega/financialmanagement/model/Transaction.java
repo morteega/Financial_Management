@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EnumType;
@@ -27,7 +29,8 @@ public class Transaction {
     @Column(nullable=false)
     private String name;
     @Embedded
-    @Column(nullable=false)
+    @AttributeOverrides({@AttributeOverride(name="name", column= @Column(name="category_name", nullable=false))
+    })
     private Category category;
     private String merchant;
     @Enumerated(EnumType.STRING)

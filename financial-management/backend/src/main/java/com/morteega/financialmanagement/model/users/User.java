@@ -20,6 +20,8 @@ public class User {
     private List<FinancialAccount> financialAccounts;
     @OneToMany(mappedBy="user")
     private List<Budget> budgetList;
+
+    public User(){}
     
     public User(String email, String password, List<FinancialAccount> financialAccounts){
         this.email=email;

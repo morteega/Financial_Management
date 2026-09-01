@@ -21,17 +21,24 @@ public class Budget {
     @Column(nullable=false)
     private String name;
     @Column(nullable=false)
-    private BigDecimal goalAmount;
+    private BigDecimal goalAmmount;
     @Column(nullable=false)
-    private BigDecimal actualAmount;
+    private BigDecimal actualAmmount;
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    public Budget(String name, BigDecimal actualAmount, BigDecimal goalAmount){
+    public Budget(String name, BigDecimal actualAmmount, BigDecimal goalAmmount, User user){
         this.name=name;
-        this.actualAmount=actualAmount;
-        this.goalAmount=goalAmount;
+        this.actualAmmount=actualAmmount;
+        this.goalAmmount=goalAmmount;
+        this.user=user;
+    }
+    public Budget(){
+        this.name=null;
+        this.actualAmmount=null;
+        this.goalAmmount=null;
+        this.user=null;
     }
 
     public Long getId() {
@@ -46,20 +53,20 @@ public class Budget {
         this.name = name;
     }
 
-    public BigDecimal getGoalAmount() {
-        return goalAmount;
+    public BigDecimal getgoalAmmount() {
+        return goalAmmount;
     }
 
-    public void setGoalAmount(BigDecimal goalAmount) {
-        this.goalAmount = goalAmount;
+    public void setgoalAmmount(BigDecimal goalAmmount) {
+        this.goalAmmount = goalAmmount;
     }
 
-    public BigDecimal getActualAmount() {
-        return actualAmount;
+    public BigDecimal getactualAmmount() {
+        return actualAmmount;
     }
 
-    public void setActualAmount(BigDecimal actualAmount) {
-        this.actualAmount = actualAmount;
+    public void setactualAmmount(BigDecimal actualAmmount) {
+        this.actualAmmount = actualAmmount;
     }
     public void setUser(User user){
         this.user=user;
