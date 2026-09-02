@@ -6,8 +6,8 @@ services:
       POSTGRES_DB: financial_management
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    ports: 
-      - "5432:5432"
+    ports:
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -25,7 +25,7 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -34,6 +34,8 @@ services:
     build:
       context: ./frontend
     container_name: financial-management-frontend
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:8080
     ports:
       - "5173:5173"
     volumes:

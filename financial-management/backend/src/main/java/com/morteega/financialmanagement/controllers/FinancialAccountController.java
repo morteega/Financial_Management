@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.morteega.financialmanagement.dtos.FinancialAccountRequestDTO;
-import com.morteega.financialmanagement.model.users.User;
 import com.morteega.financialmanagement.services.FinancialAccountService;
 import com.morteega.financialmanagement.dtos.FinancialAccountResponseDTO;
 
@@ -30,18 +29,18 @@ public class FinancialAccountController {
     }
 
     @PostMapping
-    public ResponseEntity <FinancialAccountResponseDTO> create(@RequestParam User user, @RequestBody FinancialAccountRequestDTO dto){
-        FinancialAccountResponseDTO created=financialAccountService.createFinancialAccount(user,dto);
+    public ResponseEntity <FinancialAccountResponseDTO> create(@RequestParam Long userId, @RequestBody FinancialAccountRequestDTO dto){
+        FinancialAccountResponseDTO created=financialAccountService.createFinancialAccount(userId,dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
     @GetMapping
     public ResponseEntity <List<FinancialAccountResponseDTO>> getAll(@RequestParam Long userId){
-        List<FinancialAccountResponseDTO> financialAccounts=this.financialAccountService.getAccountsByUser(userId);
+        List<FinancialAccountResponseDTO> financialAccounts=this.financialAccountService.getAllAccounts(userId);
         return ResponseEntity.ok(financialAccounts);
     }
     @GetMapping("/{accountId}")
     public ResponseEntity <FinancialAccountResponseDTO> getAccountById(@RequestParam Long userId, @PathVariable Long accountId){
-        FinancialAccountResponseDTO account = this.financialAccountService.getFinancialAccountById(userId, accountId);
+        FinancialAccountResponseDTO account = this.financialAccountService.getFinancialAccount(userId, accountId);
         return ResponseEntity.ok(account);
     }
 }

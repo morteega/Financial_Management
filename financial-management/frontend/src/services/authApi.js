@@ -1,4 +1,4 @@
-const BASE_URL= `http://${window.location.hostname}:8080/api/users`;
+const BASE_URL = '/api/users';
 
 export async function registerUser(email,password){
     const params= new URLSearchParams({email, password});

@@ -88,7 +88,7 @@ export default function AuthPage() {
       } else {
         const usuario = await loginUser(email, password)
         login(usuario)
-        navigate('/transacciones', { replace: true })
+        navigate('/cuentas', { replace: true })
       }
     } catch (err) {
       setError(err.message || 'Ocurrió un error inesperado')

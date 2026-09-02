@@ -1,4 +1,4 @@
-const BASE_URL = `http://${window.location.hostname}:8080/api/transactions`
+const BASE_URL = '/api/transactions'
 
 export async function getTransactions(userId, financialAccountId) {
   const params = new URLSearchParams({ userid: userId, financialAccountId })

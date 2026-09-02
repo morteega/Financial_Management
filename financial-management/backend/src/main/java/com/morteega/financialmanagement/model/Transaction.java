@@ -47,6 +47,8 @@ public class Transaction {
     private LocalDate date;
     
 
+    public Transaction(){}
+
     public Transaction(String name, BigDecimal amount, Category category, String source, String merchant, TransactionType transactionType, boolean isRecurring, FinancialAccount financialAccount){
         this.name=name;
         this.amount=amount;

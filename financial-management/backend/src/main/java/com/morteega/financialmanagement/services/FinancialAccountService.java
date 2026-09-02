@@ -26,22 +26,18 @@ public class FinancialAccountService {
         this.userRepository=userRepository;
     }
 
-    public FinancialAccountResponseDTO createFinancialAccount(User user,FinancialAccountRequestDTO financialAccountRequestDTO){
+    public FinancialAccountResponseDTO createFinancialAccount(Long userId,FinancialAccountRequestDTO financialAccountRequestDTO){
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+
         FinancialAccount financialAccount = new FinancialAccount();
         financialAccount.setAmount(financialAccountRequestDTO.getAmount());
         financialAccount.setName(financialAccountRequestDTO.getName());
-        User checkUser= this.userRepository.findById(financialAccountRequestDTO.getUserId()). orElseThrow(() -> new EntityNotFoundException("User not found"));
-        if(user.getId().equals(checkUser.getId()))
-            financialAccount.setUser(user);
-        if(financialAccountRequestDTO.getUserId().equals(user.getId())) {
-            this.financialAccountRepository.save(financialAccount);
-            return toDto(financialAccount);
-        }else{
-            System.out.println("\nTrying to create an account into the wrong User");
-            return null;
-        }
+        financialAccount.setUser(user);
+
+        this.financialAccountRepository.save(financialAccount);
+        return toDto(financialAccount);
     }
-    public List<FinancialAccountResponseDTO> getAccountsByUser(Long userId){
+    public List<FinancialAccountResponseDTO> getAllAccounts(Long userId){
         List<FinancialAccount> accounts=this.financialAccountRepository.findByUserId(userId);
         List<FinancialAccountResponseDTO> finalAccounts= new ArrayList<>();
         for(int i=0; i<accounts.size();i++){
@@ -49,7 +45,7 @@ public class FinancialAccountService {
         }
         return finalAccounts;
     }
-    public FinancialAccountResponseDTO getFinancialAccountById(Long userId, Long financialAccountId){
+    public FinancialAccountResponseDTO getFinancialAccount(Long userId, Long financialAccountId){
         if(!this.userRepository.existsById(userId)){
             throw new RuntimeException("User doesnt exist");
         }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { getFinancialAccounts } from '../services/financialAccountsApi'
 import { createTransaction, getTransactions } from '../services/transactionsApi'
@@ -23,6 +23,8 @@ function currency(value) {
 export default function TransactionsPage() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const preselectedAccountId = location.state?.accountId
 
   const [accounts, setAccounts] = useState([])
   const [accountsLoading, setAccountsLoading] = useState(true)
@@ -47,7 +49,9 @@ export default function TransactionsPage() {
         const data = await getFinancialAccounts(user.id)
         if (cancelled) return
         setAccounts(data)
-        if (data.length > 0) setSelectedAccountId(String(data[0].id))
+        const preselected = data.find((a) => String(a.id) === String(preselectedAccountId))
+        if (preselected) setSelectedAccountId(String(preselected.id))
+        else if (data.length > 0) setSelectedAccountId(String(data[0].id))
       } catch (err) {
         if (!cancelled) setAccountsError(err.message)
       } finally {
@@ -59,7 +63,7 @@ export default function TransactionsPage() {
     return () => {
       cancelled = true
     }
-  }, [user.id])
+  }, [user.id, preselectedAccountId])
 
   useEffect(() => {
     let cancelled = false
@@ -143,6 +147,9 @@ export default function TransactionsPage() {
           <span>Finzo</span>
         </div>
         <div className="tx-user">
+          <button type="button" onClick={() => navigate('/cuentas')}>
+            Mis cuentas
+          </button>
           <span>{user.email}</span>
           <button type="button" onClick={handleLogout}>
             Cerrar sesión

@@ -12,6 +12,7 @@ import com.morteega.financialmanagement.dtos.TransactionRequestDTO;
 import com.morteega.financialmanagement.dtos.TransactionResponseDTO;
 import com.morteega.financialmanagement.model.users.User;
 import com.morteega.financialmanagement.model.Transaction;
+import com.morteega.financialmanagement.model.TransactionType;
 import com.morteega.financialmanagement.repositories.FinancialAccountRepository;
 import com.morteega.financialmanagement.model.FinancialAccount;
 
@@ -40,6 +41,12 @@ public class TransactionService {
                                                 transactionRequestDTO.getIsRecurring(),
                                                 financialAccount);
         transactionRepository.save(transaction);
+        if(transaction.getTransactionType()==TransactionType.INCOME){
+            financialAccount.setAmount(financialAccount.getAmount().add(transaction.getAmount()));
+        }else{
+            financialAccount.setAmount(financialAccount.getAmount().subtract(transaction.getAmount()));
+        }
+        this.financialAccountRepository.save(financialAccount);
         TransactionResponseDTO response= new TransactionResponseDTO(transaction.getAmount(), transaction.getName(), transaction.getFinancialAccount().getId(),
                 transaction.geCategory(), transaction.getMerchant(), transaction.getSource(), transaction.getTransactionType(),
                 transaction.getIsRecurring(), transaction.getId());
@@ -106,6 +113,7 @@ public class TransactionService {
         transactionResponseDTO.setFinancialAccountId(transaction.getFinancialAccount().getId());
         transactionResponseDTO.setId(transaction.getId());
         transactionResponseDTO.setIsRecurring(transaction.getIsRecurring());
+        transactionResponseDTO.setName(transaction.getName());
         transactionResponseDTO.setMerchant(transaction.getMerchant());
         transactionResponseDTO.setSource(transaction.getSource());
         transactionResponseDTO.setTransactionType(transaction.getTransactionType());

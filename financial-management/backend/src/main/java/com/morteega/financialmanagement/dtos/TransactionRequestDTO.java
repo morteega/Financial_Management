@@ -17,7 +17,7 @@ public class TransactionRequestDTO {
     private boolean isRecurring;
     private LocalDate date;
 
-    public TransactionRequestDTO(BigDecimal amount, String name, Long financialAccountId, Category category, String merchant, String source, TransactionType transactionType, boolean isIsRecurring){
+    public TransactionRequestDTO(BigDecimal amount, String name, Long financialAccountId, Category category, String merchant, String source, TransactionType transactionType, boolean isRecurring){
         this.amount=amount;
         this.category=category;
         this.financialAccountId=financialAccountId;
@@ -25,7 +25,7 @@ public class TransactionRequestDTO {
         this.name=name;
         this.source=source;
         this.transactionType=transactionType;
-        this.isRecurring=isIsRecurring;
+        this.isRecurring=isRecurring;
         this.date=LocalDate.now();
     }
     public BigDecimal getAmount() {

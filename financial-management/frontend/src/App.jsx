@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import AuthPage from './pages/AuthPage'
+import AccountsPage from './pages/AccountsPage'
 import TransactionsPage from './pages/TransactionsPage'
 
 function App() {
@@ -11,6 +12,14 @@ function App() {
         <Routes>
           <Route path="/login" element={<AuthPage />} />
           <Route
+            path="/cuentas"
+            element={
+              <ProtectedRoute>
+                <AccountsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/transacciones"
             element={
               <ProtectedRoute>
@@ -18,7 +27,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/cuentas" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
