@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -42,6 +43,11 @@ public class FinancialAccountController {
     public ResponseEntity <FinancialAccountResponseDTO> getAccountById(@RequestParam Long userId, @PathVariable Long accountId){
         FinancialAccountResponseDTO account = this.financialAccountService.getFinancialAccount(userId, accountId);
         return ResponseEntity.ok(account);
+    }
+    @DeleteMapping("/{acountId}")
+    public ResponseEntity<FinancialAccountResponseDTO> deleteAccount(@RequestParam Long financialAccountId){
+        FinancialAccountResponseDTO accountDto=this.financialAccountService.deleteFinancialAccount(financialAccountId);
+        return ResponseEntity.ok(accountDto);
     }
 }
 

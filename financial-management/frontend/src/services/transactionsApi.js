@@ -27,3 +27,16 @@ export async function createTransaction(userId, transaction) {
   }
   return response.json()
 }
+
+export async function deleteTransaction(transactionId, financialAccountId) {
+  const params = new URLSearchParams({ financialAccountId })
+
+  const response = await fetch(`${BASE_URL}/${transactionId}?${params.toString()}`, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error('No se pudo eliminar la transacción')
+  }
+  return response.json()
+}

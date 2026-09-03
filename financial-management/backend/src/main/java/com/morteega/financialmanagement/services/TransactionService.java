@@ -1,10 +1,10 @@
 package com.morteega.financialmanagement.services;
 
-import com.morteega.financialmanagement.controllers.TransactionController;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.morteega.financialmanagement.repositories.TransactionRepository;
 import com.morteega.financialmanagement.repositories.UserRepository;
 
@@ -19,16 +19,14 @@ import com.morteega.financialmanagement.model.FinancialAccount;
 
 @Service
 public class TransactionService {
-    private final TransactionController transactionController;
     private TransactionRepository transactionRepository;
     private FinancialAccountRepository financialAccountRepository;
     private UserRepository userRepository;
-    
-    public TransactionService(TransactionRepository transactionRepository, FinancialAccountRepository financialAccountRepository, UserRepository userRepository, TransactionController transactionController){
+
+    public TransactionService(TransactionRepository transactionRepository, FinancialAccountRepository financialAccountRepository, UserRepository userRepository){
         this.financialAccountRepository=financialAccountRepository;
         this.userRepository=userRepository;
         this.transactionRepository=transactionRepository;
-        this.transactionController = transactionController;
     }
 
     public TransactionResponseDTO addTransaction(Long userId,TransactionRequestDTO transactionRequestDTO){//De momento hago un void pero claude me dice que haga el metodo de forma que me devuelva un TransactionResponseDTO con el id guardado ya de la transaccion una vez escrito en la BD
@@ -87,14 +85,14 @@ public class TransactionService {
         TransactionResponseDTO response= this.toDto(transaction); 
         return response;
     }
+    @Transactional
     public TransactionResponseDTO deleteTransaction(Long id, Long financialAccountId){
-        FinancialAccount financialAccount= this.financialAccountRepository.findById(financialAccountId).orElseThrow(()-> new RuntimeException("Account not found"));
-        Transaction transaction= this.transactionRepository.findByFinancialAccountId(financialAccountId, id);
+        Transaction transaction= this.transactionRepository.findByFinancialAccountIdAndId(financialAccountId, id);
         if(transaction==null){
             throw new RuntimeException("Transaction not found");
         }
         TransactionResponseDTO transactionResponseDTO= this.toDto(transaction);
-        this.transactionRepository.deleteByFinancialAccountId(financialAccountId, id);
+        this.transactionRepository.deleteByFinancialAccountIdAndId(financialAccountId, id);
         return transactionResponseDTO;
     }
 

@@ -204,6 +204,13 @@
   color: var(--fin-heading);
 }
 
+.acc-card-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .acc-card-add {
   flex-shrink: 0;
   border: none;
@@ -219,6 +226,33 @@
 
 .acc-card-add:hover {
   transform: translateY(-1px);
+}
+
+.acc-card-delete {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: transparent;
+  color: var(--fin-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.acc-card-delete:hover:not(:disabled) {
+  opacity: 1;
+  color: #ff8a8a;
+  background: rgba(255, 90, 90, 0.12);
+}
+
+.acc-card-delete:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .acc-tx-list {
@@ -278,6 +312,40 @@
 
 .acc-tx-row-amount.expense {
   color: #ff8a8a;
+}
+
+.acc-tx-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.acc-tx-row-delete {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 7px;
+  background: transparent;
+  color: var(--fin-muted);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.acc-tx-row-delete:hover:not(:disabled) {
+  opacity: 1;
+  color: #ff8a8a;
+  background: rgba(255, 90, 90, 0.12);
+}
+
+.acc-tx-row-delete:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 @media (max-width: 840px) {

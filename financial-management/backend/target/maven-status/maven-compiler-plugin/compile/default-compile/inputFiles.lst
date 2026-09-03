@@ -1,6 +1,12 @@
+/Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/FinancialManagementApplication.java
+/Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/config/CorsConfig.java
+/Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/config/SecurityConfig.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/controllers/AuthController.java
+/Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/controllers/BudgetController.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/controllers/FinancialAccountController.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/controllers/TransactionController.java
+/Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/dtos/BudgetRequestDTO.java
+/Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/dtos/BudgetResponseDTO.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/dtos/FinancialAccountRequestDTO.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/dtos/FinancialAccountResponseDTO.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/dtos/TransactionRequestDTO.java
@@ -18,5 +24,6 @@
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/repositories/TransactionRepository.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/repositories/UserRepository.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/services/AuthService.java
+/Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/services/BudgetService.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/services/FinancialAccountService.java
 /Users/mortega/Programacion/Proyecto Gestion Gastos/financial-management/backend/src/main/java/com/morteega/financialmanagement/services/TransactionService.java

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { createFinancialAccount, getFinancialAccounts } from '../services/financialAccountsApi'
-import { getTransactions } from '../services/transactionsApi'
+import { createFinancialAccount, deleteFinancialAccount, getFinancialAccounts } from '../services/financialAccountsApi'
+import { deleteTransaction, getTransactions } from '../services/transactionsApi'
 import './AccountsPage.css'
 
 const emptyAccountForm = { name: '', amount: '' }
@@ -28,6 +28,9 @@ export default function AccountsPage() {
   const [newAccountForm, setNewAccountForm] = useState(emptyAccountForm)
   const [creatingAccount, setCreatingAccount] = useState(false)
   const [newAccountError, setNewAccountError] = useState(null)
+
+  const [deletingAccountId, setDeletingAccountId] = useState(null)
+  const [deletingTransactionId, setDeletingTransactionId] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -86,6 +89,45 @@ export default function AccountsPage() {
 
   function goToNewTransaction(accountId) {
     navigate('/transacciones', { state: { accountId } })
+  }
+
+  async function handleDeleteAccount(account) {
+    if (!window.confirm(`¿Eliminar la cuenta "${account.name}"? Esta acción no se puede deshacer.`)) {
+      return
+    }
+
+    setDeletingAccountId(account.id)
+    try {
+      await deleteFinancialAccount(account.id)
+      setAccounts((prev) => prev.filter((a) => a.id !== account.id))
+      setTransactionsByAccount((prev) => {
+        const { [account.id]: _removed, ...rest } = prev
+        return rest
+      })
+    } catch (err) {
+      window.alert(err.message || 'No se pudo eliminar la cuenta')
+    } finally {
+      setDeletingAccountId(null)
+    }
+  }
+
+  async function handleDeleteTransaction(accountId, transaction) {
+    if (!window.confirm(`¿Eliminar la transacción "${transaction.name}"? Esta acción no se puede deshacer.`)) {
+      return
+    }
+
+    setDeletingTransactionId(transaction.id)
+    try {
+      await deleteTransaction(transaction.id, accountId)
+      setTransactionsByAccount((prev) => ({
+        ...prev,
+        [accountId]: (prev[accountId] ?? []).filter((t) => t.id !== transaction.id),
+      }))
+    } catch (err) {
+      window.alert(err.message || 'No se pudo eliminar la transacción')
+    } finally {
+      setDeletingTransactionId(null)
+    }
   }
 
   function updateNewAccountField(field, value) {
@@ -206,13 +248,23 @@ export default function AccountsPage() {
                     <h2>{account.name}</h2>
                     <span className="acc-card-balance">{currency(account.amount)}</span>
                   </div>
-                  <button
-                    type="button"
-                    className="acc-card-add"
-                    onClick={() => goToNewTransaction(account.id)}
-                  >
-                    + Transacción
-                  </button>
+                  <div className="acc-card-actions">
+                    <button
+                      type="button"
+                      className="acc-card-add"
+                      onClick={() => goToNewTransaction(account.id)}
+                    >
+                      + Transacción
+                    </button>
+                    <button
+                      type="button"
+                      className="acc-card-delete"
+                      disabled={deletingAccountId === account.id}
+                      onClick={() => handleDeleteAccount(account)}
+                    >
+                      {deletingAccountId === account.id ? 'Eliminando…' : 'Eliminar cuenta'}
+                    </button>
+                  </div>
                 </div>
 
                 {loading && <p className="acc-hint">Cargando movimientos…</p>}
@@ -232,10 +284,20 @@ export default function AccountsPage() {
                             {t.category?.name ?? 'General'} {t.merchant ? `· ${t.merchant}` : ''}
                           </span>
                         </div>
-                        <span className={`acc-tx-row-amount ${t.transactionType === 'INCOME' ? 'income' : 'expense'}`}>
-                          {t.transactionType === 'INCOME' ? '+' : '-'}
-                          {currency(t.amount)}
-                        </span>
+                        <div className="acc-tx-row-actions">
+                          <span className={`acc-tx-row-amount ${t.transactionType === 'INCOME' ? 'income' : 'expense'}`}>
+                            {t.transactionType === 'INCOME' ? '+' : '-'}
+                            {currency(t.amount)}
+                          </span>
+                          <button
+                            type="button"
+                            className="acc-tx-row-delete"
+                            disabled={deletingTransactionId === t.id}
+                            onClick={() => handleDeleteTransaction(account.id, t)}
+                          >
+                            {deletingTransactionId === t.id ? 'Eliminando…' : 'Eliminar transacción'}
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>

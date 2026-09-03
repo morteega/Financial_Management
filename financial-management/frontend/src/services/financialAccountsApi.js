@@ -27,3 +27,16 @@ export async function createFinancialAccount(userId, account) {
   }
   return response.json()
 }
+
+export async function deleteFinancialAccount(accountId) {
+  const params = new URLSearchParams({ financialAccountId: accountId })
+
+  const response = await fetch(`${BASE_URL}/${accountId}?${params.toString()}`, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error('No se pudo eliminar la cuenta')
+  }
+  return response.json()
+}

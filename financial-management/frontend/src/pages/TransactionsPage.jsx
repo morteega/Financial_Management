@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { getFinancialAccounts } from '../services/financialAccountsApi'
-import { createTransaction, getTransactions } from '../services/transactionsApi'
+import { createTransaction, deleteTransaction, getTransactions } from '../services/transactionsApi'
 import './TransactionsPage.css'
 
 const emptyForm = {
@@ -38,6 +38,8 @@ export default function TransactionsPage() {
   const [form, setForm] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState(null)
+
+  const [deletingTransactionId, setDeletingTransactionId] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -119,6 +121,22 @@ export default function TransactionsPage() {
       setFormError(err.message || 'No se pudo crear la transacción')
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleDeleteTransaction(transaction) {
+    if (!window.confirm(`¿Eliminar la transacción "${transaction.name}"? Esta acción no se puede deshacer.`)) {
+      return
+    }
+
+    setDeletingTransactionId(transaction.id)
+    try {
+      await deleteTransaction(transaction.id, selectedAccountId)
+      setTransactions((prev) => prev.filter((t) => t.id !== transaction.id))
+    } catch (err) {
+      window.alert(err.message || 'No se pudo eliminar la transacción')
+    } finally {
+      setDeletingTransactionId(null)
     }
   }
 
@@ -295,10 +313,20 @@ export default function TransactionsPage() {
                           {t.category?.name ?? 'General'} {t.merchant ? `· ${t.merchant}` : ''}
                         </span>
                       </div>
-                      <span className={`tx-row-amount ${t.transactionType === 'INCOME' ? 'income' : 'expense'}`}>
-                        {t.transactionType === 'INCOME' ? '+' : '-'}
-                        {currency(t.amount)}
-                      </span>
+                      <div className="tx-row-actions">
+                        <span className={`tx-row-amount ${t.transactionType === 'INCOME' ? 'income' : 'expense'}`}>
+                          {t.transactionType === 'INCOME' ? '+' : '-'}
+                          {currency(t.amount)}
+                        </span>
+                        <button
+                          type="button"
+                          className="tx-row-delete"
+                          disabled={deletingTransactionId === t.id}
+                          onClick={() => handleDeleteTransaction(t)}
+                        >
+                          {deletingTransactionId === t.id ? 'Eliminando…' : 'Eliminar transacción'}
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>

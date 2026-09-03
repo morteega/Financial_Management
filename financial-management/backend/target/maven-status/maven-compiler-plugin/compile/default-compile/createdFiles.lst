@@ -1,5 +1,8 @@
 com/morteega/financialmanagement/dtos/TransactionResponseDTO.class
 com/morteega/financialmanagement/dtos/FinancialAccountRequestDTO.class
+com/morteega/financialmanagement/model/Category.class
+com/morteega/financialmanagement/repositories/UserRepository.class
+com/morteega/financialmanagement/dtos/TransactionRequestDTO.class
 com/morteega/financialmanagement/services/AuthService.class
 com/morteega/financialmanagement/repositories/BudgetRepositroy.class
 com/morteega/financialmanagement/repositories/FinancialAccountRepository.class
@@ -10,9 +13,6 @@ com/morteega/financialmanagement/services/FinancialAccountService.class
 com/morteega/financialmanagement/controllers/TransactionController.class
 com/morteega/financialmanagement/controllers/AuthController.class
 com/morteega/financialmanagement/repositories/TransactionRepository.class
-com/morteega/financialmanagement/model/Category.class
-com/morteega/financialmanagement/repositories/UserRepository.class
-com/morteega/financialmanagement/dtos/TransactionRequestDTO.class
 com/morteega/financialmanagement/model/Transaction.class
 com/morteega/financialmanagement/model/users/User.class
 com/morteega/financialmanagement/services/TransactionService.class

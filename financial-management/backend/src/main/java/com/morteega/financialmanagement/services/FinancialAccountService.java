@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.morteega.financialmanagement.dtos.FinancialAccountRequestDTO;
 import com.morteega.financialmanagement.dtos.FinancialAccountResponseDTO;
 import com.morteega.financialmanagement.repositories.FinancialAccountRepository;
+import com.morteega.financialmanagement.repositories.TransactionRepository;
 import com.morteega.financialmanagement.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -20,10 +22,12 @@ import com.morteega.financialmanagement.model.FinancialAccount;
 public class FinancialAccountService {
     private FinancialAccountRepository financialAccountRepository;
     private UserRepository userRepository;
+    private TransactionRepository transactionRepository;
 
-    public FinancialAccountService(FinancialAccountRepository financialAccountRepository, UserRepository userRepository){
+    public FinancialAccountService(FinancialAccountRepository financialAccountRepository, UserRepository userRepository, TransactionRepository transactionRepository){
         this.financialAccountRepository=financialAccountRepository;
         this.userRepository=userRepository;
+        this.transactionRepository=transactionRepository;
     }
 
     public FinancialAccountResponseDTO createFinancialAccount(Long userId,FinancialAccountRequestDTO financialAccountRequestDTO){
@@ -55,6 +59,14 @@ public class FinancialAccountService {
             throw new RuntimeException("Account doesnt belong to this user");
         }
         return toDto(financialAccount);
+    }
+    @Transactional
+    public FinancialAccountResponseDTO deleteFinancialAccount(Long financialAccountId){
+        FinancialAccount financialAccount=this.financialAccountRepository.findById(financialAccountId).orElseThrow(()-> new RuntimeException("Account not found"));
+        FinancialAccountResponseDTO finanAccountResponseDTO= this.toDto(financialAccount);
+        this.transactionRepository.deleteAll(this.transactionRepository.findByFinancialAccountId(financialAccountId));
+        this.financialAccountRepository.deleteById(financialAccountId);
+        return finanAccountResponseDTO;
     }
 
     private FinancialAccountResponseDTO toDto(FinancialAccount financialAcount){
