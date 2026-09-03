@@ -1,5 +1,6 @@
 package com.morteega.financialmanagement.services;
 
+import com.morteega.financialmanagement.controllers.TransactionController;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +19,16 @@ import com.morteega.financialmanagement.model.FinancialAccount;
 
 @Service
 public class TransactionService {
+    private final TransactionController transactionController;
     private TransactionRepository transactionRepository;
     private FinancialAccountRepository financialAccountRepository;
     private UserRepository userRepository;
     
-    public TransactionService(TransactionRepository transactionRepository, FinancialAccountRepository financialAccountRepository, UserRepository userRepository){
+    public TransactionService(TransactionRepository transactionRepository, FinancialAccountRepository financialAccountRepository, UserRepository userRepository, TransactionController transactionController){
         this.financialAccountRepository=financialAccountRepository;
         this.userRepository=userRepository;
         this.transactionRepository=transactionRepository;
+        this.transactionController = transactionController;
     }
 
     public TransactionResponseDTO addTransaction(Long userId,TransactionRequestDTO transactionRequestDTO){//De momento hago un void pero claude me dice que haga el metodo de forma que me devuelva un TransactionResponseDTO con el id guardado ya de la transaccion una vez escrito en la BD
@@ -47,10 +50,7 @@ public class TransactionService {
             financialAccount.setAmount(financialAccount.getAmount().subtract(transaction.getAmount()));
         }
         this.financialAccountRepository.save(financialAccount);
-        TransactionResponseDTO response= new TransactionResponseDTO(transaction.getAmount(), transaction.getName(), transaction.getFinancialAccount().getId(),
-                transaction.geCategory(), transaction.getMerchant(), transaction.getSource(), transaction.getTransactionType(),
-                transaction.getIsRecurring(), transaction.getId());
-                response.setDate(transaction.getDate());
+        TransactionResponseDTO response= this.toDto(transaction);
         return response;
         }else
             throw new RuntimeException("User id does not match the necessary id to acces this account");
@@ -87,16 +87,15 @@ public class TransactionService {
         TransactionResponseDTO response= this.toDto(transaction); 
         return response;
     }
-    public TransactionResponseDTO deleteTransactionById(Long id, Long userId){
-        if(!this.userRepository.existsById(userId)){
-            throw new RuntimeException("Given User not found");
+    public TransactionResponseDTO deleteTransaction(Long id, Long financialAccountId){
+        FinancialAccount financialAccount= this.financialAccountRepository.findById(financialAccountId).orElseThrow(()-> new RuntimeException("Account not found"));
+        Transaction transaction= this.transactionRepository.findByFinancialAccountId(financialAccountId, id);
+        if(transaction==null){
+            throw new RuntimeException("Transaction not found");
         }
-        Transaction transaction=this.transactionRepository.findById(id).orElseThrow(()-> new RuntimeException("Transaction not Found"));
-        if(!transaction.getFinancialAccount().getUser().getId().equals(userId)){
-            throw new RuntimeException("Transaction id does't match with given User");
-        }
-        this.transactionRepository.deleteById(id);
-        return this.toDto(transaction);
+        TransactionResponseDTO transactionResponseDTO= this.toDto(transaction);
+        this.transactionRepository.deleteByFinancialAccountId(financialAccountId, id);
+        return transactionResponseDTO;
     }
 
 
@@ -108,7 +107,7 @@ public class TransactionService {
     private TransactionResponseDTO toDto(Transaction transaction){
         TransactionResponseDTO transactionResponseDTO= new TransactionResponseDTO();
         transactionResponseDTO.setAmount(transaction.getAmount());
-        transactionResponseDTO.setCategory(transaction.geCategory());
+        transactionResponseDTO.setCategory(transaction.getCategory());
         transactionResponseDTO.setDate(transaction.getDate());
         transactionResponseDTO.setFinancialAccountId(transaction.getFinancialAccount().getId());
         transactionResponseDTO.setId(transaction.getId());

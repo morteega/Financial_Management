@@ -44,7 +44,7 @@ public class TransactionController {
         return ResponseEntity.ok(this.transactionService.getTransactionById(transactionId, userId));
     }
     @DeleteMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponseDTO> deleteTransactionById(@PathVariable Long transactionId, @RequestParam Long userId){
-        return ResponseEntity.ok().body(this.transactionService.deleteTransactionById(transactionId, userId));
+    public ResponseEntity<TransactionResponseDTO> deleteTransactionById(@PathVariable Long transactionId, @RequestParam Long financialAccountId){
+        return ResponseEntity.ok().body(this.transactionService.deleteTransaction(transactionId, financialAccountId));
     }
 }

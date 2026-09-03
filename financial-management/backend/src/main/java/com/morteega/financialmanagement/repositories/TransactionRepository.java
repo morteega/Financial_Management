@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long>{
     List<Transaction> findByFinancialAccountId(Long financialAccountId);
-    void deleteByFinancialAccountId(Long financialAccountId);
+    Transaction findByFinancialAccountId(Long financialAccountId, Long transactionId);
+    void deleteByFinancialAccountId(Long financialAccountId, Long transactionId);
 }

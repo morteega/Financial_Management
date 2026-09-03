@@ -76,7 +76,7 @@ public class Transaction {
     public void setCategory(Category category){
         this.category=category;
     }
-    public Category geCategory(){
+    public Category getCategory(){
         return this.category;
     }
     public TransactionType getTransactionType(){
